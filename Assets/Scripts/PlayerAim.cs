@@ -12,6 +12,7 @@ public class PlayerAim : MonoBehaviour
 
     void Start()
     {
+        weapon = GameObject.FindWithTag("Weapon");
         aimTransform = transform.Find("Aim");
     }
 
@@ -34,7 +35,6 @@ public class PlayerAim : MonoBehaviour
         float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         aimTransform.eulerAngles = new Vector3(0, 0, angle);
 
-        weapon = GameObject.FindWithTag("Weapon");
         if (angle > 90f || angle < -90f) {
             weapon.GetComponent<SpriteRenderer>().flipY = true;
         } else {

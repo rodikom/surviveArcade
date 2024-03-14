@@ -6,18 +6,19 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField]
     private float speed = 10f;
+    public float damage = 1f;
 
     void FixedUpdate()
     { 
         transform.position += transform.right * speed * Time.fixedDeltaTime;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("Collision with " + collision.gameObject.name);
-        if (collision.gameObject.CompareTag("Enemy")) {
-            Destroy(gameObject);
-            Destroy(collision.gameObject);
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    Debug.Log("Collision with " + collision.gameObject.name);
+    //    if (collision.gameObject.CompareTag("Enemy")) {
+    //        Destroy(gameObject);
+    //        Destroy(collision.gameObject);
+    //    }
+    //}
 }
