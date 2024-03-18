@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    public Transform spawnPoint;
+    private Vector2 spawnPoint;
 
     public float wanderRadius;
     private Vector2 targetPosition;
@@ -26,7 +26,7 @@ public class Enemy : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        transform.position = spawnPoint.position;
+        spawnPoint = transform.position;
 
         GetNewWanderTarget();
     }
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour
     void MoveByDefault()
     {
         speed = 1f;
-        if (Vector2.Distance(transform.position, spawnPoint.position) <= 0.001f)
+        if (Vector2.Distance(transform.position, spawnPoint) <= 0.001f)
         {
             GetNewWanderTarget();
         }
@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
 
         if (Vector2.Distance(transform.position, targetPosition) <= 0.001f)
         {
-            targetPosition = spawnPoint.position;
+            targetPosition = spawnPoint;
         }
 
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
