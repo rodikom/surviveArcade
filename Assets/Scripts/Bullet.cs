@@ -12,13 +12,4 @@ public class Bullet : MonoBehaviour
     { 
         transform.position += transform.right * speed * Time.fixedDeltaTime;
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    Debug.Log("Collision with " + collision.gameObject.name);
-    //    if (collision.gameObject.CompareTag("Enemy")) {
-    //        Destroy(gameObject);
-    //        Destroy(collision.gameObject);
-    //    }
-    //}
 }

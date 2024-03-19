@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     [SerializeField]
     private float moveSpeed = 10f;
+    [SerializeField]
+    private Animator animator;
 
     private Vector2 moveDirection = Vector2.zero;
 
@@ -18,6 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -28,6 +31,12 @@ public class PlayerController : MonoBehaviour
     void OnMove(InputValue iv)
     {
         moveDirection = iv.Get<Vector2>();
+
+        if (moveDirection != Vector2.zero) {
+            animator.Play("run_player");
+        } else {
+            animator.Play("idle_player");
+        }
     }
 
     private void Movement()

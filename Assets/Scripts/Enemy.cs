@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,20 +12,33 @@ public class Enemy : MonoBehaviour
     private float detectionDistance;
     [SerializeField]
     protected float healthPoints;
+    [SerializeField]
+    private Animator animator;
+    [SerializeField]
+    private Rigidbody2D rb;
 
     private SpriteRenderer spriteRenderer;
 
-    public Transform spawnPoint;
+    private Vector2 spawnPoint;
 
     public float wanderRadius;
     private Vector2 targetPosition;
     private Vector2 wanderDirection;
 
+    protected string enemy_idle = "idle_dino";
+    protected string enemy_walk = "walk_dino";
+    protected string enemy_run = "run_dino";
+    protected string enemy_hit = "hit_dino";
+    protected string enemy_death = "death_dino";
+
     void Start()
     {
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
         transform.position = spawnPoint.position;
+        rb = GetComponent<Rigidbody2D>();
+
+        spawnPoint = transform.position;
 
         GetNewWanderTarget();
     }
@@ -36,17 +48,19 @@ public class Enemy : MonoBehaviour
         if (healthPoints <= 0)
         {
             Debug.Log("Enemy is dead");
-            Destroy(gameObject);
+            animator.Play(enemy_death);
         }
 
         if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
         {
+            animator.Play(enemy_run);
             speed = 4f;
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
             FlipSprite(target.position - transform.position);
         }
         else
         {
+            animator.Play(enemy_walk);
             MoveByDefault();
         }
     }
@@ -54,7 +68,7 @@ public class Enemy : MonoBehaviour
     void MoveByDefault()
     {
         speed = 1f;
-        if (Vector2.Distance(transform.position, spawnPoint.position) <= 0.001f)
+        if (Vector2.Distance(transform.position, spawnPoint) <= 0.001f)
         {
             GetNewWanderTarget();
         }
@@ -63,7 +77,7 @@ public class Enemy : MonoBehaviour
 
         if (Vector2.Distance(transform.position, targetPosition) <= 0.001f)
         {
-            targetPosition = spawnPoint.position;
+            targetPosition = spawnPoint;
         }
 
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
@@ -73,6 +87,7 @@ public class Enemy : MonoBehaviour
 
     void GetNewWanderTarget()
     {
+        animator.Play(enemy_idle);
         float randomAngle = Random.Range(0f, 360f);
         wanderDirection = Quaternion.Euler(0, 0, randomAngle) * Vector2.right;
         targetPosition = (Vector2)transform.position + wanderDirection.normalized * wanderRadius;
@@ -94,8 +109,15 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
+            animator.Play(enemy_hit);
             healthPoints -= collision.gameObject.GetComponent<Bullet>().damage;
             Destroy(collision.gameObject);
         }
+    }
+
+    protected void Death()
+    {
+        Debug.Log("Enemy is dead");
+        Destroy(gameObject);
     }
 }
