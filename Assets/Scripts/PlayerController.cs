@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    // Visible fields
     [SerializeField]
     private Rigidbody2D rb;
     [SerializeField]
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Animator animator;
 
+    // Invisible fields
     private Vector2 moveDirection = Vector2.zero;
 
     private void Awake()

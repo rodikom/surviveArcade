@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    // Visible fields
     [SerializeField]
     private float speed;
     [SerializeField]
@@ -17,6 +18,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private Rigidbody2D rb;
 
+    // Invisible fields
     private SpriteRenderer spriteRenderer;
 
     private Vector2 spawnPoint;
@@ -25,6 +27,7 @@ public class Enemy : MonoBehaviour
     private Vector2 targetPosition;
     private Vector2 wanderDirection;
 
+    // Animation states
     protected string enemy_idle = "idle_dino";
     protected string enemy_walk = "walk_dino";
     protected string enemy_run = "run_dino";
@@ -35,7 +38,7 @@ public class Enemy : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        transform.position = spawnPoint.position;
+        transform.position = spawnPoint;
         rb = GetComponent<Rigidbody2D>();
 
         spawnPoint = transform.position;

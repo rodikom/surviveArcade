@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayerAim : MonoBehaviour
 {
+    // Visible fields
     [SerializeField]
     private Transform aimTransform;
     [SerializeField]
     private Camera mainCamera;
+
+    // Invisible fields
     private GameObject weapon;
 
     void Start()

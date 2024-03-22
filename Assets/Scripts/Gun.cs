@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Gun : Weapon
 {
+    // Visible fields
     [SerializeField]
     protected float range = 7f;
     [SerializeField]
@@ -13,12 +14,16 @@ public class Gun : Weapon
     private SpriteRenderer spriteRenderer;
     [SerializeField]
     private int magazineSize = 6;
+
+    // Invisible fields
     private List<GameObject> ammo = new List<GameObject>();
+    private Vector2 bulletStartPos;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
+        bulletStartPos = transform.Find("BulletStartPos").transform.position;
     }
 
     private void Update()
@@ -33,7 +38,6 @@ public class Gun : Weapon
             return;
         }
         Debug.Log("Piu Piu");
-        var bulletStartPos = transform.Find("BulletStartPos").transform.position;
 
         var shootedBullet = Instantiate(bulletPrefab, bulletStartPos, transform.rotation);
 
