@@ -6,39 +6,34 @@ public class Enemy : MonoBehaviour
 {
     // Visible fields
     [SerializeField]
-    private float speed;
+    protected float speed;
     [SerializeField]
     private Transform target;
     [SerializeField]
     private float detectionDistance;
     [SerializeField]
     protected float healthPoints;
-    [SerializeField]
-    private Animator animator;
-    [SerializeField]
-    private Rigidbody2D rb;
 
     // Invisible fields
+    private Animator animator;
+    private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
 
     private Vector2 spawnPoint;
 
-    public float wanderRadius;
+    private float wanderRadius;
     private Vector2 targetPosition;
     private Vector2 wanderDirection;
 
     // Animation states
-    protected string enemy_idle = "idle_dino";
-    protected string enemy_walk = "walk_dino";
-    protected string enemy_run = "run_dino";
-    protected string enemy_hit = "hit_dino";
-    protected string enemy_death = "death_dino";
+    private string enemy_run = "run_enemy";
+    private string enemy_hit = "hit_enemy";
+    private string enemy_death = "death_enemy";
 
-    void Start()
+    protected virtual void Start()
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        transform.position = spawnPoint;
         rb = GetComponent<Rigidbody2D>();
 
         spawnPoint = transform.position;
@@ -46,7 +41,7 @@ public class Enemy : MonoBehaviour
         GetNewWanderTarget();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (healthPoints <= 0)
         {
@@ -54,21 +49,24 @@ public class Enemy : MonoBehaviour
             animator.Play(enemy_death);
         }
 
-        if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
+        if(speed>0)
         {
-            animator.Play(enemy_run);
-            speed = 4f;
-            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-            FlipSprite(target.position - transform.position);
+            if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
+            {
+                animator.Play(enemy_run);
+                speed = 4f;
+                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+                FlipSprite(target.position - transform.position);
+            }
+            else
+            {
+                MoveByDefault();
+            }
         }
-        else
-        {
-            animator.Play(enemy_walk);
-            MoveByDefault();
-        }
+        
     }
 
-    void MoveByDefault()
+    private void MoveByDefault()
     {
         speed = 1f;
         if (Vector2.Distance(transform.position, spawnPoint) <= 0.001f)
@@ -88,15 +86,14 @@ public class Enemy : MonoBehaviour
         FlipSprite(targetPosition - (Vector2)transform.position);
     }
 
-    void GetNewWanderTarget()
+    private void GetNewWanderTarget()
     {
-        animator.Play(enemy_idle);
         float randomAngle = Random.Range(0f, 360f);
         wanderDirection = Quaternion.Euler(0, 0, randomAngle) * Vector2.right;
         targetPosition = (Vector2)transform.position + wanderDirection.normalized * wanderRadius;
     }
 
-    void FlipSprite(Vector2 direction)
+    private void FlipSprite(Vector2 direction)
     {
         if (direction.x > 0)
         {
@@ -118,9 +115,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    protected void Death()
+    private void Death()
     {
         Debug.Log("Enemy is dead");
-        Destroy(gameObject);
+        animator.Play(enemy_death);
+        Destroy(gameObject, 0.5f);
     }
 }
