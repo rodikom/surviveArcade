@@ -12,10 +12,12 @@ public class PlayerAim : MonoBehaviour
 
     // Invisible fields
     private GameObject weapon;
+    private GameObject player;
 
     void Start()
     {
         weapon = GameObject.FindWithTag("Weapon");
+        player = GameObject.FindWithTag("Player");
         aimTransform = transform.Find("Aim");
     }
 
@@ -40,8 +42,10 @@ public class PlayerAim : MonoBehaviour
 
         if (angle > 90f || angle < -90f) {
             weapon.GetComponent<SpriteRenderer>().flipY = true;
+            player.GetComponent<SpriteRenderer>().flipX = true;
         } else {
             weapon.GetComponent<SpriteRenderer>().flipY = false;
+            player.GetComponent<SpriteRenderer>().flipX = false;
         }
     }
 

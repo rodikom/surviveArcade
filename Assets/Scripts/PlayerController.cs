@@ -18,6 +18,11 @@ public class PlayerController : MonoBehaviour
     // Invisible fields
     private Vector2 moveDirection = Vector2.zero;
 
+    // animation states
+    private string currentState = "player0_idle";
+    private string playerIdle = "player0_idle";
+    private string playerRun = "player0_run";
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -34,13 +39,11 @@ public class PlayerController : MonoBehaviour
     {
         moveDirection = iv.Get<Vector2>();
 
-        if (moveDirection != Vector2.zero)
-        {
-            animator.Play("run_player");
+        if (moveDirection != Vector2.zero) {
+            ChangeAnimationState(playerRun);
         }
-        else
-        {
-            animator.Play("idle_player");
+        else {
+            ChangeAnimationState(playerIdle);
         }
     }
 
@@ -53,5 +56,15 @@ public class PlayerController : MonoBehaviour
         } else if (moveDirection.x < 0) {
             spriteRenderer.flipX = true;
         }
+    }
+
+    private void ChangeAnimationState(string newState)
+    {
+        if (currentState == newState) {
+            return;
+        }
+
+        animator.Play(newState);
+        currentState = newState;
     }
 }

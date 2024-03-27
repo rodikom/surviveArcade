@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Gun : Weapon
 {
@@ -14,16 +15,17 @@ public class Gun : Weapon
     private SpriteRenderer spriteRenderer;
     [SerializeField]
     private int magazineSize = 6;
+    [SerializeField]
+    private GameObject bulletStartPos;
 
     // Invisible fields
     private List<GameObject> ammo = new List<GameObject>();
-    private Vector2 bulletStartPos;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        bulletStartPos = transform.Find("BulletStartPos").transform.position;
+        bulletStartPos = GameObject.Find("BulletStartPos");
     }
 
     private void Update()
@@ -39,7 +41,7 @@ public class Gun : Weapon
         }
         Debug.Log("Piu Piu");
 
-        var shootedBullet = Instantiate(bulletPrefab, bulletStartPos, transform.rotation);
+        var shootedBullet = Instantiate(bulletPrefab, bulletStartPos.transform.position, transform.rotation);
 
         shootedBullet.GetComponent<Bullet>().damage = damage;
 
