@@ -13,7 +13,8 @@ public class Enemy : MonoBehaviour
     private float detectionDistance;
     [SerializeField]
     protected float healthPoints;
-
+    [SerializeField]
+    private float wanderRadius;
     // Invisible fields
     private Animator animator;
     private Rigidbody2D rb;
@@ -21,14 +22,14 @@ public class Enemy : MonoBehaviour
 
     private Vector2 spawnPoint;
 
-    private float wanderRadius;
+
     private Vector2 targetPosition;
     private Vector2 wanderDirection;
 
     // Animation states
-    private string enemyRun = "run_enemy";
-    private string enemyHit = "hit_enemy";
-    private string enemyDeath = "death_enemy";
+    private string enemyRun = "enemy_run";
+    private string enemyHit = "enemy_hit";
+    private string enemyDeath = "enemy_death";
 
     protected virtual void Start()
     {
@@ -49,13 +50,14 @@ public class Enemy : MonoBehaviour
             animator.Play(enemyDeath);
         }
 
-        if(speed>0)
+        float newSpeed = 2 * speed;
+
+        if(speed > 0)
         {
             if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
             {
                 animator.Play(enemyRun);
-                speed = 4f;
-                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);
                 FlipSprite(target.position - transform.position);
             }
             else
@@ -68,7 +70,6 @@ public class Enemy : MonoBehaviour
 
     private void MoveByDefault()
     {
-        speed = 1f;
         if (Vector2.Distance(transform.position, spawnPoint) <= 0.001f)
         {
             GetNewWanderTarget();

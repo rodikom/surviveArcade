@@ -7,10 +7,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     protected GameObject[] enemyPrefabs;
     [SerializeField]
-    protected float spawnInterval = 2f;
+    protected float spawnInterval = 1f;
 
     private Camera mainCamera;
-    private float spawnBuffer = 1.5f;
 
     void Start()
     {
@@ -20,8 +19,8 @@ public class GameController : MonoBehaviour
 
     void SpawnEnemy()
     {
-        Vector3 spawnPosition = CalculateSpawnPositionOutsideCamera();
-        if (spawnPosition != Vector3.zero)
+        Vector2[] spawnPositions = CalculateSpawnPosition();
+        foreach (Vector2 spawnPosition in spawnPositions)
         {
             int randomEnemyIndex = Random.Range(0, enemyPrefabs.Length);
             GameObject enemyPrefab = enemyPrefabs[randomEnemyIndex];
@@ -29,24 +28,35 @@ public class GameController : MonoBehaviour
         }
     }
 
-    Vector3 CalculateSpawnPositionOutsideCamera()
+    Vector2 [] CalculateSpawnPosition()
     {
-        Vector3 spawnPosition = Vector3.zero;
-
         float cameraHeight = mainCamera.orthographicSize;
         float cameraWidth = cameraHeight * mainCamera.aspect;
+         
+        float camX = mainCamera.transform.position.x;
+        float camY = mainCamera.transform.position.y;
 
-        float spawnX = Random.Range(-cameraWidth, cameraWidth);
-        float spawnY = Random.Range(-cameraHeight, cameraHeight);
+        float spawnX;
+        float spawnY;
+        float spawnRandX = camX + Random.Range(-cameraWidth-4f, cameraWidth+4f);
+        float spawnRandY = camY + Random.Range(-cameraHeight-4f, cameraHeight+4f);
 
-        // Checking if spawn position is inside camera bounds
-        if (Mathf.Abs(spawnX) < cameraWidth - spawnBuffer && Mathf.Abs(spawnY) < cameraHeight - spawnBuffer)
-        {
-            float spawnXOffset = spawnX < 0 ? -cameraWidth - spawnBuffer : cameraWidth + spawnBuffer;
-            float spawnYOffset = spawnY < 0 ? -cameraHeight - spawnBuffer : cameraHeight + spawnBuffer;
-            spawnPosition = new Vector3(spawnXOffset, spawnYOffset, 0f);
-        }
+        float rand = Random.Range(3f, 6f);
 
-        return spawnPosition;
+        Vector2[] spawnPositions = new Vector2[4];
+
+        spawnY = camY + cameraHeight + rand;
+        spawnPositions[0] = new Vector2(spawnRandX, spawnY);
+
+        spawnY = camY - cameraHeight - rand;
+        spawnPositions[1] = new Vector2(spawnRandX, spawnY);
+
+        spawnX = camX + cameraWidth + rand;
+        spawnPositions[2] = new Vector2(spawnX, spawnRandY);
+
+        spawnX = camX - cameraWidth - rand;
+        spawnPositions[3] = new Vector2(spawnX, spawnRandY);
+
+        return spawnPositions;
     }
 }

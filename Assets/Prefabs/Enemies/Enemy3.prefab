@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 2288773724222450898}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 8d1d920724ffb8a409ce0e458dc4b7a9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6a2a321a3af13e6498d2523ed0cc5681, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -121,10 +121,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090e911fa59e6b643b7981369b323531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 4.5
   target: {fileID: 0}
-  detectionDistance: 0
-  healthPoints: 0
+  detectionDistance: 17
+  healthPoints: 10
+  wanderRadius: 15
 --- !u!61 &1439904746300297467
 BoxCollider2D:
   m_ObjectHideFlags: 0

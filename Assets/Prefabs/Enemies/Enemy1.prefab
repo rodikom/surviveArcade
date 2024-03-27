@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 8519004334204749690}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 208ff7dcd4e2b504a9eceb0e17fa2a66, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -166,10 +166,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090e911fa59e6b643b7981369b323531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  target: {fileID: 6332891327002392432, guid: ae2ad67ab701314489f445e7ee0bdc22, type: 3}
+  speed: 3.5
+  target: {fileID: 0}
   detectionDistance: 5
-  healthPoints: 1
+  healthPoints: 10
+  wanderRadius: 5
 --- !u!50 &1619453246013265299
 Rigidbody2D:
   serializedVersion: 4
