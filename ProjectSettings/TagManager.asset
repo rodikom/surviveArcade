@@ -7,6 +7,8 @@ TagManager:
   - Weapon
   - Bullet
   - Enemy
+  - Ground
+  - Area
   layers:
   - Default
   - TransparentFX
@@ -44,6 +46,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: foreground
+  - name: Ground
+    uniqueID: 1973326155
+    locked: 0
+  - name: Characters
+    uniqueID: 467996941
+    locked: 0
+  - name: Foreground
     uniqueID: 52346415
     locked: 0

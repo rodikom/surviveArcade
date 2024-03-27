@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private SpriteRenderer spriteRenderer;
     [SerializeField]
-    private float moveSpeed = 10f;
-    [SerializeField]
     private Animator animator;
+    [SerializeField]
+    private float moveSpeed = 10f;
 
     // Invisible fields
     private Vector2 moveDirection = Vector2.zero;
