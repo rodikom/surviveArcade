@@ -20,10 +20,11 @@ public class Enemy : DamageableCharacter
     protected float detectionDistance;
     [SerializeField]
     protected float knockbackForce = 1f;
+    [SerializeField]
+    private float wanderRadius;
 
     protected Vector2 spawnPoint;
 
-    private float wanderRadius;
     private Vector2 targetPosition;
     private Vector2 wanderDirection;
 
@@ -56,9 +57,8 @@ public class Enemy : DamageableCharacter
         {
             if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
             {
-                speed = 4f;
-                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);
                 FlipSprite(target.position - transform.position);
             }
             else

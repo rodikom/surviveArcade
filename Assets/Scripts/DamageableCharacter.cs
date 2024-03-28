@@ -111,6 +111,7 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
                 Invincible = false;
             }
         }
+        Debug.Log(rb.velocity);
     }
 
     public void OnHit(float damage)
@@ -125,6 +126,7 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
             }
         }
     }
+
     public void OnHit(float damage, Vector2 knockback)
     {
         if (!Invincible) {
@@ -132,12 +134,13 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
             int crit = (criticalChance > 0.5f) ? 2 : 1;
 
             Health -= damage * crit;
-            rb.AddForce(knockback * rb.mass, ForceMode2D.Impulse);
+            rb.AddForce(knockback * rb.mass * Time.deltaTime, ForceMode2D.Impulse);
             if (isInvicibleEnabled) {
                 Invincible = true;
             }
         }
     }
+
     protected void ChangeAnimationState(string newState)
     {
         if (CURRENT_ANIMATION == newState) {
