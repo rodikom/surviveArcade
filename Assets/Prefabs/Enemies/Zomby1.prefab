@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 728188662235501825}
   - component: {fileID: 8041857008191282459}
   - component: {fileID: 3543923945381538996}
-  - component: {fileID: 9188396983426098801}
   - component: {fileID: 714265933191154321}
   - component: {fileID: 1519581592574119445}
+  - component: {fileID: 9188396983426098801}
   m_Layer: 0
-  m_Name: Enemy0
-  m_TagString: Untagged
+  m_Name: Zomby1
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 8741235004624801401}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f2855d618fc8d9c499189d3f39b9cbbc, type: 2}
+  m_Controller: {fileID: 9100000, guid: 54353e46dc54ceb4ba00ce357d61f611, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -109,22 +109,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &9188396983426098801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8741235004624801401}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 090e911fa59e6b643b7981369b323531, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  target: {fileID: 6332891327002392432, guid: ae2ad67ab701314489f445e7ee0bdc22, type: 3}
-  detectionDistance: 7
-  healthPoints: 10
 --- !u!61 &714265933191154321
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -157,7 +141,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0036284328, y: -0.03991118}
+  m_Offset: {x: -0.001, y: -0.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -168,7 +152,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6154014, y: 0.92017764}
+  m_Size: {x: 0.4, y: 0.4}
   m_EdgeRadius: 0
 --- !u!50 &1519581592574119445
 Rigidbody2D:
@@ -178,14 +162,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8741235004624801401}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -196,4 +180,30 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
+--- !u!114 &9188396983426098801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8741235004624801401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 090e911fa59e6b643b7981369b323531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HIT_ANIMATION: hit_zomby1
+  DEATH_ANIMATION: death_zomby1
+  _health: 5
+  _targetable: 1
+  invincibilityTime: 0.25
+  _invincible: 0
+  hitSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  speed: 3
+  damage: 1
+  target: {fileID: 6332891327002392432, guid: ae2ad67ab701314489f445e7ee0bdc22, type: 3}
+  detectionDistance: 7
+  knockbackForce: 1
+  RUN_ANIMATION: run_zomby1

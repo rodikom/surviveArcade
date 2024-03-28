@@ -2,58 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : DamageableCharacter
 {
-    // Visible fields
+    // Unity components
+    protected SpriteRenderer spriteRenderer;
+    
+    // Enemy stats
     [SerializeField]
     protected float speed;
     [SerializeField]
-    private Transform target;
-    [SerializeField]
-    private float detectionDistance;
-    [SerializeField]
-    protected float healthPoints;
+    protected float damage = 1f;
 
-    // Invisible fields
-    private Animator animator;
-    private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
+    // Find player
+    [SerializeField]
+    protected Transform target;
+    [SerializeField]
+    protected float detectionDistance;
+    [SerializeField]
+    protected float knockbackForce = 1f;
 
-    private Vector2 spawnPoint;
+    protected Vector2 spawnPoint;
 
     private float wanderRadius;
     private Vector2 targetPosition;
     private Vector2 wanderDirection;
 
     // Animation states
-    private string enemyRun = "run_enemy";
-    private string enemyHit = "hit_enemy";
-    private string enemyDeath = "death_enemy";
+    [SerializeField]
+    protected string RUN_ANIMATION;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     protected virtual void Start()
     {
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        rb = GetComponent<Rigidbody2D>();
-
+        CURRENT_ANIMATION = RUN_ANIMATION;
         spawnPoint = transform.position;
 
         GetNewWanderTarget();
     }
 
-    protected virtual void Update()
+    protected override void Update()
     {
-        if (healthPoints <= 0)
-        {
-            Debug.Log("Enemy is dead");
-            animator.Play(enemyDeath);
-        }
+        base.Update();
 
         if(speed>0)
         {
             if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
             {
-                animator.Play(enemyRun);
                 speed = 4f;
                 transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
                 FlipSprite(target.position - transform.position);
@@ -62,6 +62,7 @@ public class Enemy : MonoBehaviour
             {
                 MoveByDefault();
             }
+            ChangeAnimationState(RUN_ANIMATION);
         }
         
     }
@@ -93,7 +94,7 @@ public class Enemy : MonoBehaviour
         targetPosition = (Vector2)transform.position + wanderDirection.normalized * wanderRadius;
     }
 
-    private void FlipSprite(Vector2 direction)
+    protected void FlipSprite(Vector2 direction)
     {
         if (direction.x > 0)
         {
@@ -105,20 +106,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            animator.Play(enemyHit);
-            healthPoints -= collision.gameObject.GetComponent<Bullet>().damage;
-            Destroy(collision.gameObject);
-        }
-    }
+        if (collision.gameObject.CompareTag("Player") && 
+            collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageableObject)
+            ) {
 
-    private void Death()
-    {
-        Debug.Log("Enemy is dead");
-        animator.Play(enemyDeath);
-        Destroy(gameObject, 0.5f);
+            Vector2 direction = (collision.gameObject.transform.position - transform.position).normalized;
+            Vector2 knockback = direction * knockbackForce;
+            damageableObject.OnHit(damage, knockback);
+        }
     }
 }

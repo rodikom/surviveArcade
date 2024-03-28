@@ -226,10 +226,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cc521c8f68331d45b525990bff7a5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  spriteRenderer: {fileID: 0}
-  animator: {fileID: 0}
+  HIT_ANIMATION: player0_hit
+  DEATH_ANIMATION: player0_death
+  _health: 5
+  _targetable: 1
+  invincibilityTime: 0.25
+  _invincible: 0
+  hitSound: {fileID: 0}
+  deathSound: {fileID: 0}
   moveSpeed: 10
+  IDLE_ANIMATION: player0_idle
+  RUN_ANIMATION: player0_run
 --- !u!114 &6894852241325715053
 MonoBehaviour:
   m_ObjectHideFlags: 0

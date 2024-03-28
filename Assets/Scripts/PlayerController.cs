@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : DamageableCharacter
 {
-    // Visible fields
-    [SerializeField]
-    private Rigidbody2D rb;
-    [SerializeField]
+    // Unity components
     private SpriteRenderer spriteRenderer;
-    [SerializeField]
-    private Animator animator;
+    
+    // Player stats
     [SerializeField]
     private float moveSpeed = 10f;
-
-    // Invisible fields
     private Vector2 moveDirection = Vector2.zero;
 
-    // animation states
-    private string currentState = "player0_idle";
-    private string playerIdle = "player0_idle";
-    private string playerRun = "player0_run";
+    // Animation states
+    [SerializeField]
+    private string IDLE_ANIMATION;
+    [SerializeField]
+    private string RUN_ANIMATION;
 
-    private void Awake()
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        base.Awake();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        CURRENT_ANIMATION = IDLE_ANIMATION;
     }
 
     private void FixedUpdate()
@@ -40,10 +40,10 @@ public class PlayerController : MonoBehaviour
         moveDirection = iv.Get<Vector2>();
 
         if (moveDirection != Vector2.zero) {
-            ChangeAnimationState(playerRun);
+            ChangeAnimationState(RUN_ANIMATION);
         }
         else {
-            ChangeAnimationState(playerIdle);
+            ChangeAnimationState(IDLE_ANIMATION);
         }
     }
 
@@ -56,15 +56,5 @@ public class PlayerController : MonoBehaviour
         } else if (moveDirection.x < 0) {
             spriteRenderer.flipX = true;
         }
-    }
-
-    private void ChangeAnimationState(string newState)
-    {
-        if (currentState == newState) {
-            return;
-        }
-
-        animator.Play(newState);
-        currentState = newState;
     }
 }

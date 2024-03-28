@@ -16,7 +16,7 @@ public class Gun : Weapon
     [SerializeField]
     private int magazineSize = 6;
     [SerializeField]
-    private GameObject bulletStartPos;
+    private Transform bulletStartPos;
 
     // Invisible fields
     private List<GameObject> ammo = new List<GameObject>();
@@ -25,47 +25,47 @@ public class Gun : Weapon
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        bulletStartPos = GameObject.Find("BulletStartPos");
+        bulletStartPos = GameObject.Find("BulletStartPos").transform;
     }
 
     private void Update()
     {
-        IsBulletExist();
-        CheckDistance();
+        //IsBulletExist();
+        //CheckDistance();
     }
 
     public override void Attack()
     {
-        if (ammo.Count >= magazineSize) {
-            return;
-        }
+        //if (ammo.Count >= magazineSize) {
+        //    return;
+        //}
         Debug.Log("Piu Piu");
 
-        var shootedBullet = Instantiate(bulletPrefab, bulletStartPos.transform.position, transform.rotation);
+        var shootedBullet = Instantiate(bulletPrefab, bulletStartPos.position, bulletStartPos.rotation);
 
         shootedBullet.GetComponent<Bullet>().damage = damage;
-
-        ammo.Add(shootedBullet);
+        shootedBullet.GetComponent<Bullet>().LifeTime = range;
+        //ammo.Add(shootedBullet);
     }
 
-    private void IsBulletExist()
-    {
-        for (int i = 0; i < ammo.Count; i++) {
-            if (ammo[i].IsDestroyed()) {
-                ammo.RemoveAt(i);
-            }
-        }
-    }
+    //private void IsBulletExist()
+    //{
+    //    for (int i = 0; i < ammo.Count; i++) {
+    //        if (ammo[i].IsDestroyed()) {
+    //            ammo.RemoveAt(i);
+    //        }
+    //    }
+    //}
 
-    private void CheckDistance()
-    {
-        for (int i = 0; i < ammo.Count; i++) {
-            var distance = Vector2.Distance(transform.position, ammo[i].transform.position);
+    //private void CheckDistance()
+    //{
+    //    for (int i = 0; i < ammo.Count; i++) {
+    //        var distance = Vector2.Distance(transform.position, ammo[i].transform.position);
 
-            if (distance >= range) {
-                Destroy(ammo[i]);
-                ammo.RemoveAt(i);
-            }
-        }
-    }
+    //        if (distance >= range) {
+    //            Destroy(ammo[i]);
+    //            ammo.RemoveAt(i);
+    //        }
+    //    }
+    //}
 }

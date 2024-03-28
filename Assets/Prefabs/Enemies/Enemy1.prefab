@@ -166,10 +166,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 090e911fa59e6b643b7981369b323531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HIT_ANIMATION: 
+  DEATH_ANIMATION: 
+  _targetable: 1
+  invincibilityTime: 0.25
+  _invincible: 0
+  hitSound: {fileID: 0}
+  deathSound: {fileID: 0}
   speed: 4
+  damage: 1
   target: {fileID: 6332891327002392432, guid: ae2ad67ab701314489f445e7ee0bdc22, type: 3}
   detectionDistance: 5
-  healthPoints: 1
+  knockbackForce: 1
+  RUN_ANIMATION: 
 --- !u!50 &1619453246013265299
 Rigidbody2D:
   serializedVersion: 4
