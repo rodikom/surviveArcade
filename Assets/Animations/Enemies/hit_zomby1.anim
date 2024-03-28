@@ -6,7 +6,11 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<<< HEAD:Assets/Animations/Enemies/hit_zomby1.anim
   m_Name: hit_zomby1
+========
+  m_Name: enemyBlue_hit
+>>>>>>>> 658c23b2364ad3cd3343b0e88c60645adf33f0da:Assets/Animations/Enemies/enemyBlue_hit.anim
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0

@@ -98,7 +98,11 @@ Animator:
   m_GameObject: {fileID: 8741235004624801401}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
+<<<<<<< HEAD:Assets/Prefabs/Enemies/Zomby1.prefab
   m_Controller: {fileID: 9100000, guid: 54353e46dc54ceb4ba00ce357d61f611, type: 2}
+=======
+  m_Controller: {fileID: 9100000, guid: fb4c2e0f64b1d7648b3bafe313f0acab, type: 2}
+>>>>>>> 658c23b2364ad3cd3343b0e88c60645adf33f0da:Assets/Prefabs/Enemies/Enemy0.prefab
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -109,6 +113,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+<<<<<<< HEAD:Assets/Prefabs/Enemies/Zomby1.prefab
+=======
+--- !u!114 &9188396983426098801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8741235004624801401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 090e911fa59e6b643b7981369b323531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 3
+  target: {fileID: 0}
+  detectionDistance: 4
+  healthPoints: 10
+  wanderRadius: 4
+>>>>>>> 658c23b2364ad3cd3343b0e88c60645adf33f0da:Assets/Prefabs/Enemies/Enemy0.prefab
 --- !u!61 &714265933191154321
 BoxCollider2D:
   m_ObjectHideFlags: 0

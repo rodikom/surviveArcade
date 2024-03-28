@@ -50,11 +50,14 @@ public class Enemy : DamageableCharacter
     {
         base.Update();
 
-        if(speed>0)
+        float newSpeed = 2 * speed;
+
+        if(speed > 0)
         {
             if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
             {
                 speed = 4f;
+                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
                 transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
                 FlipSprite(target.position - transform.position);
             }
@@ -69,7 +72,6 @@ public class Enemy : DamageableCharacter
 
     private void MoveByDefault()
     {
-        speed = 1f;
         if (Vector2.Distance(transform.position, spawnPoint) <= 0.001f)
         {
             GetNewWanderTarget();
