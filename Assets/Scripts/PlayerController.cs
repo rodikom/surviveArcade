@@ -22,11 +22,14 @@ public class PlayerController : DamageableCharacter
     protected override void Awake()
     {
         base.Awake();
+        
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         CURRENT_ANIMATION = IDLE_ANIMATION;
     }
 

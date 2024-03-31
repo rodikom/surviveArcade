@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DamageableCharacter : MonoBehaviour, IDamageable
@@ -18,6 +19,19 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
 
     // Health controll
     [SerializeField]
+    protected GameObject hitTextPrefab;
+
+    [SerializeField]
+    protected float _maxHealth;
+    public float MaxHealth
+    {
+        set {
+            _maxHealth = (value > 0) ? value : 1;
+        }
+
+        get => _maxHealth;
+    }
+
     protected float _health;
     public float Health
     {
@@ -27,6 +41,10 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
                     hitSound.Play(); 
                 }
                 animator.Play(HIT_ANIMATION);
+
+                GameObject text = Instantiate(hitTextPrefab);
+                text.GetComponent<RectTransform>().transform.position = Camera.main.WorldToScreenPoint(transform.position);
+                text.GetComponent<TextMeshProUGUI>().text = (_health - value).ToString();
             }
             if (hitSound != null) { 
                 hitSound.Stop(); 
@@ -103,6 +121,11 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
         physicsCollider = gameObject.GetComponent<Collider2D>();
     }
 
+    protected virtual void Start()
+    {
+        _health = _maxHealth;
+    }
+
     protected virtual void Update()
     {
         if (Invincible) {
@@ -111,7 +134,6 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
                 Invincible = false;
             }
         }
-        Debug.Log(rb.velocity);
     }
 
     public void OnHit(float damage)

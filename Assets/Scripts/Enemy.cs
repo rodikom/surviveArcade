@@ -39,8 +39,10 @@ public class Enemy : DamageableCharacter
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
+
         CURRENT_ANIMATION = RUN_ANIMATION;
         spawnPoint = transform.position;
 

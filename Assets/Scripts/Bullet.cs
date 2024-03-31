@@ -39,6 +39,7 @@ public class Bullet : MonoBehaviour
             ) {
 
             damageable.OnHit(damage);
+            Destroy(gameObject);
         }
     }
 }
