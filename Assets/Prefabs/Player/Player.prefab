@@ -226,8 +226,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cc521c8f68331d45b525990bff7a5d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HIT_ANIMATION: player0_hit
-  DEATH_ANIMATION: player0_death
   hitTextPrefab: {fileID: 4305233341978706181, guid: 90dd30dc1fe572e43a324161d0f4867e, type: 3}
   _maxHealth: 0
   _targetable: 1
@@ -236,8 +234,7 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   deathSound: {fileID: 0}
   moveSpeed: 10
-  IDLE_ANIMATION: player0_idle
-  RUN_ANIMATION: player0_run
+  playerAim: {fileID: 7699838204868744872}
 --- !u!114 &6894852241325715053
 MonoBehaviour:
   m_ObjectHideFlags: 0

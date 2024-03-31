@@ -23,7 +23,9 @@ public class PlayerAim : MonoBehaviour
 
     void Update()
     {
-        Aiming();
+        if (!PauseScreen.isPaused) {
+            Aiming();
+        }
     }
 
     private Vector3 GetMouseWorldPosition()
@@ -51,6 +53,9 @@ public class PlayerAim : MonoBehaviour
 
     private void OnFire()
     {
+        if (PauseScreen.isPaused) {
+            return;
+        }
         if (weapon != null) {
             weapon.GetComponent<Weapon>().Attack();
         }

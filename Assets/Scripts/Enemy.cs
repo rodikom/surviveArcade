@@ -29,8 +29,7 @@ public class Enemy : DamageableCharacter
     private Vector2 wanderDirection;
 
     // Animation states
-    [SerializeField]
-    protected string RUN_ANIMATION;
+    protected string RUN_ANIMATION = "RUN";
 
     protected override void Awake()
     {

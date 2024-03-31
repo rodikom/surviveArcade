@@ -12,10 +12,8 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
 
     // Animation states
     protected string CURRENT_ANIMATION;
-    [SerializeField]
-    protected string HIT_ANIMATION;
-    [SerializeField]
-    protected string DEATH_ANIMATION;
+    protected string HIT_ANIMATION = "HIT";
+    protected string DEATH_ANIMATION = "DEATH";
 
     // Health controll
     [SerializeField]

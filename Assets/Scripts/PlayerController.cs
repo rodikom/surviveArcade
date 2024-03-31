@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,10 +15,11 @@ public class PlayerController : DamageableCharacter
     private Vector2 moveDirection = Vector2.zero;
 
     // Animation states
+    private string IDLE_ANIMATION = "IDLE";
+    private string RUN_ANIMATION = "RUN";
+
     [SerializeField]
-    private string IDLE_ANIMATION;
-    [SerializeField]
-    private string RUN_ANIMATION;
+    private GameObject playerAim;
 
     protected override void Awake()
     {
@@ -33,6 +35,13 @@ public class PlayerController : DamageableCharacter
         CURRENT_ANIMATION = IDLE_ANIMATION;
     }
 
+    protected override void Update()
+    {
+        if (Health <= 0) {
+            playerAim.SetActive(false);
+        }
+    }
+
     private void FixedUpdate()
     {
         Movement();
@@ -40,6 +49,11 @@ public class PlayerController : DamageableCharacter
 
     void OnMove(InputValue iv)
     {
+        if (Health <= 0) {
+            moveDirection = Vector2.zero;
+            return;
+        }
+
         moveDirection = iv.Get<Vector2>();
 
         if (moveDirection != Vector2.zero) {
@@ -59,5 +73,10 @@ public class PlayerController : DamageableCharacter
         } else if (moveDirection.x < 0) {
             spriteRenderer.flipX = true;
         }
+    }
+
+    public void Death()
+    {
+        Loader.Loading(Loader.Scene.Death);
     }
 }
