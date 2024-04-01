@@ -45,6 +45,8 @@ public class Enemy : DamageableCharacter
         CURRENT_ANIMATION = RUN_ANIMATION;
         spawnPoint = transform.position;
 
+        target = GameObject.FindAnyObjectByType<PlayerController>().transform;
+
         GetNewWanderTarget();
     }
 
@@ -52,10 +54,11 @@ public class Enemy : DamageableCharacter
     {
         base.Update();
 
-        float newSpeed = 2 * speed;
 
-        if(speed > 0)
+        if(speed > 0 && Health > 0)
         {
+            float newSpeed = 2 * speed;
+            
             if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
             {
                 transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);

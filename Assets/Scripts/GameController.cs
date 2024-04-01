@@ -5,9 +5,12 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField]
-    protected GameObject[] enemyPrefabs;
+    private GameObject[] enemyPrefabs;
     [SerializeField]
-    protected float spawnInterval = 1f;
+    private float spawnInterval = 1f;
+    [SerializeField]
+    private GameObject enemyContainer;
+
 
     private Camera mainCamera;
 
@@ -24,7 +27,9 @@ public class GameController : MonoBehaviour
         {
             int randomEnemyIndex = Random.Range(0, enemyPrefabs.Length);
             GameObject enemyPrefab = enemyPrefabs[randomEnemyIndex];
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            
+            var enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            enemy.transform.SetParent(enemyContainer.transform);
         }
     }
 
