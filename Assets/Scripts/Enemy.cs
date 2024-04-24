@@ -117,7 +117,6 @@ public class Enemy : DamageableCharacter
         if (collision.gameObject.CompareTag("Player") && 
             collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageableObject)
             ) {
-
             Vector2 direction = (collision.gameObject.transform.position - transform.position).normalized;
             Vector2 knockback = direction * knockbackForce;
             damageableObject.OnHit(damage, knockback);

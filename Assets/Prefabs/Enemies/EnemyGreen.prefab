@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 30594673300205984}
   - component: {fileID: 37782733190991575}
   m_Layer: 0
-  m_Name: EnemyBlue
+  m_Name: EnemyGreen
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 467996941
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -140220566, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
+  m_Sprite: {fileID: 1354593876, guid: 3bcb7877229a5334da528f2f0872b5c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 815877026482536236}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d91bb72f275587e4391b57d10701bb49, type: 2}
+  m_Controller: {fileID: 9100000, guid: a32faf942f5f71e4eb4f9280c9e6b7ea, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
