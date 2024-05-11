@@ -69,8 +69,8 @@ public class Enemy : DamageableCharacter
             {
                 MoveByDefault();
             }
-            ChangeAnimationState(RUN_ANIMATION);
         }
+        ChangeAnimationState(RUN_ANIMATION);
         
     }
 
