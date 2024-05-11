@@ -11,6 +11,11 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject enemyContainer;
 
+    private float bossSpawnInterval = 0.3f; // Інтервал спауну під час "бос-хвилі"
+    private bool isBossWaveActive = false; // Флаг, що вказує на активність "бос-хвилі"
+    private float bossWaveDuration = 30f; // Тривалість "бос-хвилі" в секундах
+    private float bossWaveTimer = 0f; // Таймер для відстеження часу "бос-хвилі"
+    private float spawnBossTimer = 180f; // Таймер для відстеження часу до початку "бос-хвилі"
 
     private Camera mainCamera;
 
@@ -18,6 +23,38 @@ public class GameController : MonoBehaviour
     {
         mainCamera = Camera.main;
         InvokeRepeating("SpawnEnemy", spawnInterval, spawnInterval);
+    }
+
+    private void Update()
+    {
+        spawnBossTimer -= Time.deltaTime;
+
+        if (isBossWaveActive)
+        {
+            // Зменшуємо таймер "бос-хвилі"
+            bossWaveTimer -= Time.deltaTime;
+
+            if (bossWaveTimer <= 0)
+            {
+                // Завершення "бос-хвилі": повертаємо нормальний інтервал спауну
+                isBossWaveActive = false;
+                CancelInvoke("SpawnEnemy");
+                InvokeRepeating("SpawnEnemy", spawnInterval, spawnInterval);
+                spawnBossTimer = 180f;
+            }
+        }
+        else
+        {
+            // Перевіряємо, чи час розпочати "бос-хвилю"
+            if (spawnBossTimer <= 0)
+            {
+                // Активуємо "бос-хвилю": змінюємо інтервал спауну на інтервал "бос-хвилі"
+                isBossWaveActive = true;
+                bossWaveTimer = bossWaveDuration;
+                CancelInvoke("SpawnEnemy");
+                InvokeRepeating("SpawnEnemy", bossSpawnInterval, bossSpawnInterval);
+            }
+        }
     }
 
     void SpawnEnemy()
