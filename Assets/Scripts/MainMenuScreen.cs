@@ -22,9 +22,4 @@ public class MainMenuScreen : MonoBehaviour
     {
         optionsScreen.SetActive(false);
     }
-
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
 }

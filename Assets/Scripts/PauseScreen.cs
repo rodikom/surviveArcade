@@ -55,8 +55,4 @@ public class PauseScreen : MonoBehaviour
         isPaused = false;
         Loader.Loading(Loader.Scene.MainMenu);
     }
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
 }
