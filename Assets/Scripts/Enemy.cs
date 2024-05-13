@@ -28,6 +28,8 @@ public class Enemy : DamageableCharacter
     private Vector2 targetPosition;
     private Vector2 wanderDirection;
 
+    private bool isAlive = true;
+
     // Animation states
     protected string RUN_ANIMATION = "RUN";
 
@@ -54,8 +56,13 @@ public class Enemy : DamageableCharacter
     {
         base.Update();
 
+        if (Health <= 0 && isAlive) {
+            isAlive = false;
+            UIController.killedEnemyCount++;
+            Destroy(gameObject, 30);
+        }
 
-        if(speed > 0 && Health > 0)
+        if(speed > 0 && isAlive)
         {
             float newSpeed = 2 * speed;
             

@@ -10,20 +10,70 @@ public class UIController : MonoBehaviour
     private Image healthBar;
     [SerializeField]
     private TextMeshProUGUI healthText;
+    [SerializeField]
+    private TextMeshProUGUI timerText;
+    [SerializeField]
+    private Image bossWaveBG;
+    [SerializeField]
+    private Image bossWaveImage;
+    [SerializeField]
+    private GameController gameController;
+    [SerializeField]
+    private TextMeshProUGUI killedEnemyCountText;
 
     private PlayerController player;
-    
+
+    private bool bossWaveBarCreated = false;
+
+    public static float timerTime = 0;
+    private float bossWaveTimer = 0;
+
+    public static int killedEnemyCount = 0;
+
+
     void Start()
     {
         player = GameObject.FindObjectOfType<PlayerController>();
+        timerTime = 0;
+        killedEnemyCount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Health render
         float filledAmount = player.Health / player.MaxHealth;
         healthBar.fillAmount = filledAmount;
 
         healthText.text = player.Health.ToString() + " / " + player.MaxHealth.ToString();
+
+        // Timer render
+        timerTime += Time.deltaTime;
+
+        int minutes = Mathf.FloorToInt(timerTime / 60f);
+        int seconds = Mathf.FloorToInt(timerTime % 60f);
+
+        string timerString = string.Format("{0:00}:{1:00}", minutes, seconds);
+        timerText.text = timerString;
+
+        if (gameController.IsBossWaveActive) {
+            if (!bossWaveBarCreated) {
+                bossWaveBarCreated=true;
+                bossWaveBG.fillAmount = 1;
+            }
+
+            bossWaveTimer += Time.deltaTime;
+            bossWaveImage.fillAmount = bossWaveTimer / gameController.BossWaveDuration;
+        } else {
+            if (bossWaveBarCreated) {
+                bossWaveBG.fillAmount = 0;
+                bossWaveImage.fillAmount=0;
+                bossWaveBarCreated = false;
+                bossWaveTimer = 0;
+            }
+        }
+
+        // Killed Enemy count render
+        killedEnemyCountText.text = killedEnemyCount.ToString();
     }
 }

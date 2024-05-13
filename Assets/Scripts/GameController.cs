@@ -13,7 +13,11 @@ public class GameController : MonoBehaviour
 
     private float bossSpawnInterval = 0.3f; // Інтервал спауну під час "бос-хвилі"
     private bool isBossWaveActive = false; // Флаг, що вказує на активність "бос-хвилі"
+    public bool IsBossWaveActive => isBossWaveActive;
+
     private float bossWaveDuration = 30f; // Тривалість "бос-хвилі" в секундах
+    public float BossWaveDuration => bossWaveDuration; 
+
     private float bossWaveTimer = 0f; // Таймер для відстеження часу "бос-хвилі"
     private float spawnBossTimer = 180f; // Таймер для відстеження часу до початку "бос-хвилі"
 
