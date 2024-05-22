@@ -129,7 +129,7 @@ MonoBehaviour:
   hitSound: {fileID: 0}
   deathSound: {fileID: 0}
   speed: 0
-  damage: 1
+  damage: 2
   target: {fileID: 0}
   detectionDistance: 4
   knockbackForce: 1

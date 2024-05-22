@@ -6,7 +6,7 @@ public class Enemy : DamageableCharacter
 {
     // Unity components
     protected SpriteRenderer spriteRenderer;
-    
+
     // Enemy stats
     [SerializeField]
     protected float speed;
@@ -28,7 +28,7 @@ public class Enemy : DamageableCharacter
     private Vector2 targetPosition;
     private Vector2 wanderDirection;
 
-    private bool isAlive = true;
+    protected bool isAlive = true;
 
     // Animation states
     protected string RUN_ANIMATION = "RUN";
@@ -56,20 +56,21 @@ public class Enemy : DamageableCharacter
     {
         base.Update();
 
-        if (Health <= 0 && isAlive) {
+        if (Health <= 0 && isAlive)
+        {
             isAlive = false;
             UIController.killedEnemyCount++;
             Destroy(gameObject, 30);
         }
 
-        if(speed > 0 && isAlive)
+        if (speed > 0 && isAlive)
         {
             float newSpeed = 2 * speed;
-            
+
             if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
             {
-                transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);
-                transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);
+                //transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime * 2);
                 FlipSprite(target.position - transform.position);
             }
             else
@@ -78,7 +79,7 @@ public class Enemy : DamageableCharacter
             }
         }
         ChangeAnimationState(RUN_ANIMATION);
-        
+
     }
 
     private void MoveByDefault()
@@ -121,9 +122,10 @@ public class Enemy : DamageableCharacter
 
     protected void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && 
+        if (collision.gameObject.CompareTag("Player") &&
             collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageableObject)
-            ) {
+            )
+        {
             Vector2 direction = (collision.gameObject.transform.position - transform.position).normalized;
             Vector2 knockback = direction * knockbackForce;
             damageableObject.OnHit(damage, knockback);
