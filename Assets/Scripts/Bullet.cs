@@ -42,11 +42,11 @@ public class Bullet : MonoBehaviour
         }
     }
 
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, lifeTime);
-        Debug.Log(TargetTag + Damage + LifeTime);
     }
     protected virtual void FixedUpdate()
     {
@@ -55,12 +55,13 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(targetTag) &&
-            collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageable)
-            ) {
-
-            damageable.OnHit(damage);
+        if (collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageable)) {
+            if (collision.gameObject.CompareTag(targetTag)) {
+                damageable.OnHit(damage);
+            }
             Destroy(gameObject);
         }
+
+
     }
 }

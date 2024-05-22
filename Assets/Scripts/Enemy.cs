@@ -33,6 +33,10 @@ public class Enemy : DamageableCharacter
     // Animation states
     protected string RUN_ANIMATION = "RUN";
 
+    // Destroy distance
+    [SerializeField]
+    protected float destroyDistance = 50f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -56,6 +60,10 @@ public class Enemy : DamageableCharacter
     protected override void Update()
     {
         base.Update();
+
+        if (Vector2.Distance(transform.position, target.position) > destroyDistance) {
+            Destroy(gameObject);
+        }
 
         if (Health <= 0 && isAlive)
         {

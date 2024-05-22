@@ -10,6 +10,7 @@ public class EnemyHeadstone : Enemy
     [SerializeField]
     protected GameObject bonePrefab;
     private bool isThrowing = false; // Прапорець для перевірки стану корутини
+    private bool shouldThrow = false; // Додатковий прапорець для контролю зупинки корутини
     [SerializeField]
     private Transform boneStartPos;
 
@@ -21,19 +22,24 @@ public class EnemyHeadstone : Enemy
             if (!isThrowing) // Перевіряємо, чи корутина вже запущена
             {
                 isThrowing = true; // Встановлюємо прапорець, щоб показати, що корутина запущена
+                shouldThrow = true; // Встановлюємо прапорець для корутини
                 StartCoroutine(ThrowBoneEverySecond());
             }
+        } else {
+            shouldThrow = false; // Вимикаємо прапорець, щоб корутина зупинилася
+            isThrowing = false; // Встановлюємо прапорець, щоб показати, що корутина зупинена
         }
     }
 
     IEnumerator ThrowBoneEverySecond()
     {
-        while (true) {
+        while (shouldThrow) {
             // Викликаємо метод
             ThrowBone();
-            // Чекаємо 5 секунд
-            yield return new WaitForSeconds(0.0001f);
+            // Чекаємо 1 секунду
+            yield return new WaitForSeconds(1f);
         }
+        isThrowing = false; // Встановлюємо прапорець після завершення корутини
     }
 
     void CalculateRotation()
@@ -43,13 +49,12 @@ public class EnemyHeadstone : Enemy
         var eulernAngles = new Vector3(0, 0, angle);
 
         boneStartPos.eulerAngles = eulernAngles;
-        
+
         float distance = (boneStartPos.position - transform.position).magnitude;
 
         // Нове положення boneStartPos на цій відстані в напрямку до гравця
         boneStartPos.position = transform.position + aimDirection * distance;
     }
-
 
     private void ThrowBone()
     {
@@ -60,5 +65,7 @@ public class EnemyHeadstone : Enemy
         shootedBone.GetComponent<Bullet>().TargetTag = "Player";
         shootedBone.GetComponent<Bullet>().Damage = damage;
         shootedBone.GetComponent<Bullet>().LifeTime = range;
+
+        shootedBone.transform.SetParent(transform.parent);
     }
 }
