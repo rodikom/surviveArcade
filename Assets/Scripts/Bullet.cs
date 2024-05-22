@@ -10,7 +10,17 @@ public class Bullet : MonoBehaviour
     // Bullet stats
     [SerializeField]
     protected float speed = 10f;
-    public float damage = 1f;
+
+    protected float damage = 1f;
+    public float Damage
+    {
+        get { 
+            return damage; 
+        }
+        set {
+            damage = value;
+        }
+    }
 
     private float lifeTime;
     public float LifeTime {
@@ -22,10 +32,21 @@ public class Bullet : MonoBehaviour
         }
     }
 
+    private string targetTag;
+    public string TargetTag { 
+        get {
+            return targetTag;
+        }
+        set {
+            targetTag = value;
+        }
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, lifeTime);
+        Debug.Log(TargetTag + Damage + LifeTime);
     }
     protected virtual void FixedUpdate()
     {
@@ -34,7 +55,7 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") &&
+        if (collision.gameObject.CompareTag(targetTag) &&
             collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageable)
             ) {
 

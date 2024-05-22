@@ -37,7 +37,8 @@ public class Gun : Weapon
 
         var shootedBullet = Instantiate(bulletPrefab, bulletStartPos.position, bulletStartPos.rotation);
 
-        shootedBullet.GetComponent<Bullet>().damage = damage;
+        shootedBullet.GetComponent<Bullet>().TargetTag = "Enemy";
+        shootedBullet.GetComponent<Bullet>().Damage = damage;
         shootedBullet.GetComponent<Bullet>().LifeTime = range;
     }
 }
