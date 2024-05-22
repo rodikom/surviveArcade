@@ -206,3 +206,5 @@ MonoBehaviour:
   detectionDistance: 0
   knockbackForce: 1
   wanderRadius: 0
+  destroyDistance: 50
+  restorHPPrefab: {fileID: 7526284663312466395, guid: 024f73b7264495c4c839bcc7ddeaa51f, type: 3}

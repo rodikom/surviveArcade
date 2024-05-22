@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class Enemy : DamageableCharacter
 {
@@ -37,10 +39,13 @@ public class Enemy : DamageableCharacter
     [SerializeField]
     protected float destroyDistance = 50f;
 
+    [SerializeField]
+    private GameObject restorHPPrefab;
+
     protected override void Awake()
     {
         base.Awake();
-        if(UIController.killedEnemyCount != 0)
+        if (UIController.killedEnemyCount != 0)
             MaxHealth += (float)UIController.killedEnemyCount / 70;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -65,25 +70,27 @@ public class Enemy : DamageableCharacter
             Destroy(gameObject);
         }
 
-        if (Health <= 0 && isAlive)
-        {
+        if (Health <= 0 && isAlive) {
             isAlive = false;
             UIController.killedEnemyCount++;
+            
+            var chance = Random.Range(0, 100);
+            Debug.Log(chance);
+            if (chance <= 25) {
+                Instantiate(restorHPPrefab, transform.position, transform.rotation);
+            }
+
             Destroy(gameObject, 30);
         }
 
-        if (speed > 0 && isAlive)
-        {
+        if (speed > 0 && isAlive) {
             float newSpeed = 2 * speed;
 
-            if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance)
-            {
+            if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance) {
                 //transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);
                 transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime * 2);
                 FlipSprite(target.position - transform.position);
-            }
-            else
-            {
+            } else {
                 MoveByDefault();
             }
         }
@@ -93,15 +100,13 @@ public class Enemy : DamageableCharacter
 
     private void MoveByDefault()
     {
-        if (Vector2.Distance(transform.position, spawnPoint) <= 0.001f)
-        {
+        if (Vector2.Distance(transform.position, spawnPoint) <= 0.001f) {
             GetNewWanderTarget();
         }
 
         transform.position = Vector2.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
 
-        if (Vector2.Distance(transform.position, targetPosition) <= 0.001f)
-        {
+        if (Vector2.Distance(transform.position, targetPosition) <= 0.001f) {
             targetPosition = spawnPoint;
         }
 
@@ -119,12 +124,9 @@ public class Enemy : DamageableCharacter
 
     protected void FlipSprite(Vector2 direction)
     {
-        if (direction.x > 0)
-        {
+        if (direction.x > 0) {
             spriteRenderer.flipX = false;
-        }
-        else if (direction.x < 0)
-        {
+        } else if (direction.x < 0) {
             spriteRenderer.flipX = true;
         }
     }
@@ -133,8 +135,7 @@ public class Enemy : DamageableCharacter
     {
         if (collision.gameObject.CompareTag("Player") &&
             collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageableObject)
-            )
-        {
+            ) {
             Vector2 direction = (collision.gameObject.transform.position - transform.position).normalized;
             Vector2 knockback = direction * knockbackForce;
             damageableObject.OnHit(damage, knockback);

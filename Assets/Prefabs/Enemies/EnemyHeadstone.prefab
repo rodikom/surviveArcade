@@ -238,6 +238,8 @@ MonoBehaviour:
   detectionDistance: 15
   knockbackForce: 1
   wanderRadius: 0
+  destroyDistance: 50
+  restorHPPrefab: {fileID: 7526284663312466395, guid: 024f73b7264495c4c839bcc7ddeaa51f, type: 3}
   range: 5
   bonePrefab: {fileID: 9093169002470347413, guid: 9b0a39a694440c145942c205dfb9a4a5, type: 3}
   boneStartPos: {fileID: 5952202127441847839}

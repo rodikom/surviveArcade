@@ -21,6 +21,21 @@ public class PlayerController : DamageableCharacter
     [SerializeField]
     private GameObject playerAim;
 
+    private int restorHPCount = 5;
+
+    [SerializeField]
+    private float healPower = 10f;
+
+    public int RestorHPCount
+    {
+        get {
+            return restorHPCount;
+        }
+        set {
+            restorHPCount = value;
+        }
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -75,8 +90,26 @@ public class PlayerController : DamageableCharacter
         }
     }
 
+    private void OnHealing()
+    {
+        if (restorHPCount <= 0) {
+            return;
+        }
+
+        Health = Mathf.Min(MaxHealth, Health + healPower);
+        restorHPCount--;
+    }
+
     public void Death()
     {
         Loader.Loading(Loader.Scene.Death);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.CompareTag("RestorHP")) {
+            restorHPCount++;
+            Destroy(collision.gameObject);
+        }
     }
 }

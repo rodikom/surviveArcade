@@ -20,6 +20,8 @@ public class UIController : MonoBehaviour
     private GameController gameController;
     [SerializeField]
     private TextMeshProUGUI killedEnemyCountText;
+    [SerializeField]
+    private TextMeshProUGUI restorHPCount;
 
     private PlayerController player;
 
@@ -34,6 +36,7 @@ public class UIController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindObjectOfType<PlayerController>();
+        gameController = GameObject.FindObjectOfType<GameController>();
         timerTime = 0;
         killedEnemyCount = 0;
     }
@@ -75,5 +78,8 @@ public class UIController : MonoBehaviour
 
         // Killed Enemy count render
         killedEnemyCountText.text = killedEnemyCount.ToString();
+
+        var resHPCount = player.RestorHPCount;
+        restorHPCount.text = resHPCount.ToString();
     }
 }
