@@ -36,7 +36,8 @@ public class Enemy : DamageableCharacter
     protected override void Awake()
     {
         base.Awake();
-
+        if(UIController.killedEnemyCount != 0)
+            MaxHealth += (float)UIController.killedEnemyCount / 70;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 

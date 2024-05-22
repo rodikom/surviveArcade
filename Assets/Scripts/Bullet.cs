@@ -5,11 +5,11 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     // Unity components
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
 
     // Bullet stats
     [SerializeField]
-    private float speed = 10f;
+    protected float speed = 10f;
     public float damage = 1f;
 
     private float lifeTime;
@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, lifeTime);
     }
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         rb.velocity = transform.right * speed;
     }

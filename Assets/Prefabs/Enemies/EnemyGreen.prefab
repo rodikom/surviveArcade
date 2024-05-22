@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b30d11830e0014488c558943af8d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitTextPrefab: {fileID: 0}
+  hitTextPrefab: {fileID: 4305233341978706181, guid: 90dd30dc1fe572e43a324161d0f4867e, type: 3}
   _maxHealth: 7
   _targetable: 1
   invincibilityTime: 0.25
