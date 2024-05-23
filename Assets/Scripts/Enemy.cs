@@ -75,7 +75,6 @@ public class Enemy : DamageableCharacter
             UIController.killedEnemyCount++;
             
             var chance = Random.Range(0, 100);
-            Debug.Log(chance);
             if (chance <= 25) {
                 Instantiate(restorHPPrefab, transform.position, transform.rotation);
             }
