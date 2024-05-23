@@ -15,15 +15,9 @@ public class MapController : MonoBehaviour
 
     private Grid grid;
 
-    private int width = 400;
-    private int height = 400;
-
-    private Vector3Int startPos;
-
     void Start()
     {
         grid = GetComponent<Grid>();
-        startPos = grid.WorldToCell(playerPos.position) - new Vector3Int(width / 2, height / 2, 0);
         RandomFillMap();
     }
 
