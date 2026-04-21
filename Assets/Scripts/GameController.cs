@@ -30,17 +30,36 @@ public class GameController : MonoBehaviour
     void Start()
     {
         mainCamera = Camera.main;
-        var projectilePrefabs = new Dictionary<ProjectileType, GameObject>
+        var bulletPool = new ObjectPool<Bullet>(
+            new BulletFactory(bulletPrefab)
+        );
+
+        var bonePool = new ObjectPool<Bullet>(
+            new BulletFactory(bonePrefab)
+        );
+
+        var pools = new Dictionary<ProjectileType, ObjectPool<Bullet>>
         {
-            { ProjectileType.Bullet, bulletPrefab },
-            { ProjectileType.Bone, bonePrefab }
+            { ProjectileType.Bullet, bulletPool },
+            { ProjectileType.Bone, bonePool }
         };
+
+        var projectilePool = new ProjectilePool(pools);
+
+        ServiceLocator.Register(projectilePool);
         ServiceLocator.Register<IProjectileFactory>(
-            new ProjectileFactory(projectilePrefabs)
+            new ProjectileFactory(projectilePool)
         );
+        
+        var enemyFactory = new EnemyFactory(enemyPrefabs, enemyContainer.transform);
+        var enemyObjectPool = new ObjectPool<Enemy>(enemyFactory);
+        var enemyPool = new EnemyPool(enemyObjectPool);
+
+        ServiceLocator.Register(enemyPool);
         ServiceLocator.Register<IEnemyFactory>(
-            new EnemyFactory(enemyPrefabs)
+            new EnemyFactoryFromPool(enemyPool)
         );
+        
         InvokeRepeating("SpawnEnemy", spawnInterval, spawnInterval);
     }
 

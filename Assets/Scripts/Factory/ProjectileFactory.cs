@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class ProjectileFactory : IProjectileFactory
 {
-    private readonly Dictionary<ProjectileType, GameObject> prefabs;
+    private readonly ProjectilePool pool;
 
-    public ProjectileFactory(Dictionary<ProjectileType, GameObject> prefabs)
+    public ProjectileFactory(ProjectilePool pool)
     {
-        this.prefabs = prefabs;
+        this.pool = pool;
     }
 
     public Bullet Create(
@@ -20,17 +18,15 @@ public class ProjectileFactory : IProjectileFactory
         Transform parent = null
     )
     {
-        var prefab = prefabs[type];
+        var bullet = pool.Get(type);
 
-        var go = SpawnService.Instantiate(prefab, position, rotation);
+        bullet.transform.SetPositionAndRotation(position, rotation);
 
         if (parent != null)
-            go.transform.SetParent(parent);
+            bullet.transform.SetParent(parent);
 
-        var bullet = go.GetComponent<Bullet>();
-        bullet.Damage = damage;
-        bullet.LifeTime = lifeTime;
-        bullet.TargetTag = targetTag;
+        bullet.Init(damage, lifeTime, targetTag, type);
+        bullet.OnGetFromPool();
 
         return bullet;
     }

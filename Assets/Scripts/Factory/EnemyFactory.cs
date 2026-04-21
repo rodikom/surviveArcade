@@ -1,22 +1,20 @@
 ﻿using UnityEngine;
 
-public class EnemyFactory : IEnemyFactory
+public class EnemyFactory : IFactory<Enemy>
 {
     private readonly GameObject[] prefabs;
+    private readonly Transform defaultParent;
 
-    public EnemyFactory(GameObject[] prefabs)
+    public EnemyFactory(GameObject[] prefabs, Transform parent)
     {
         this.prefabs = prefabs;
+        this.defaultParent = parent;
     }
 
-    public Enemy Create(Vector3 position, Transform parent = null)
+    public Enemy Create()
     {
         int index = Random.Range(0, prefabs.Length);
-        var go = SpawnService.Instantiate(prefabs[index], position, Quaternion.identity);
-
-        if (parent != null)
-            go.transform.SetParent(parent);
-
+        var go = Object.Instantiate(prefabs[index], defaultParent);
         return go.GetComponent<Enemy>();
     }
 }

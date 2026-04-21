@@ -1,63 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPoolable
 {
     protected Rigidbody2D rb;
 
     [SerializeField]
     protected float speed = 10f;
 
-    protected float damage = 1f;
-    public float Damage
+    protected float damage;
+    protected float lifeTime;
+    protected string targetTag;
+
+    private float lifeTimer;
+    private ProjectileType projectileType;
+
+    public void Init(
+        float damage,
+        float lifeTime,
+        string targetTag,
+        ProjectileType type
+    )
     {
-        get { 
-            return damage; 
-        }
-        set {
-            damage = value;
-        }
+        this.damage = damage;
+        this.lifeTime = lifeTime;
+        this.targetTag = targetTag;
+        this.projectileType = type;
     }
 
-    private float lifeTime;
-    public float LifeTime {
-        get {
-            return lifeTime;
-        }
-        set {
-            lifeTime = value;
-        }
-    }
-
-    private string targetTag;
-    public string TargetTag { 
-        get {
-            return targetTag;
-        }
-        set {
-            targetTag = value;
-        }
-    }
-
-
-    private void Start()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        SpawnService.Destroy(gameObject, lifeTime);
     }
+
+    protected virtual void Update()
+    {
+        lifeTimer -= Time.deltaTime;
+        if (lifeTimer <= 0f)
+            ReturnToPool();
+    }
+
     protected virtual void FixedUpdate()
     {
         rb.velocity = transform.right * speed;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageable)) {
-            if (collision.gameObject.CompareTag(targetTag)) {
-                damageable.OnHit(damage);
-            }
-            SpawnService.Destroy(gameObject);
+        if (collision.gameObject.CompareTag(targetTag) &&
+            collision.gameObject.TryGetComponent(out DamageableCharacter dmg))
+        {
+            dmg.OnHit(damage);
         }
+
+        ReturnToPool();
+    }
+
+    public void OnGetFromPool()
+    {
+        lifeTimer = lifeTime;
+        rb.velocity = Vector2.zero;
+        gameObject.SetActive(true);
+    }
+
+    public void OnReturnToPool()
+    {
+        rb.velocity = Vector2.zero;
+        gameObject.SetActive(false);
+    }
+
+    private void ReturnToPool()
+    {
+        ServiceLocator
+            .Get<ProjectilePool>()
+            .Return(projectileType, this);
     }
 }

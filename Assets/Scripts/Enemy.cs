@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class Enemy : DamageableCharacter
+public class Enemy : DamageableCharacter, IPoolable
 {
     protected SpriteRenderer spriteRenderer;
 
@@ -62,7 +62,7 @@ public class Enemy : DamageableCharacter
         base.Update();
 
         if (Vector2.Distance(transform.position, target.position) > destroyDistance) {
-            SpawnService.Destroy(gameObject);
+            ReturnToPool();
         }
 
         if (Health <= 0 && isAlive) {
@@ -74,7 +74,7 @@ public class Enemy : DamageableCharacter
                 SpawnService.Instantiate(restorHPPrefab, transform.position, transform.rotation);
             }
 
-            SpawnService.Destroy(gameObject, 30);
+            StartCoroutine(ReturnAfterDelay(30f));
         }
 
         if (speed > 0 && isAlive) {
@@ -89,6 +89,11 @@ public class Enemy : DamageableCharacter
         }
         ChangeAnimationState(RUN_ANIMATION);
 
+    }
+    
+    protected void ReturnToPool()
+    {
+        ServiceLocator.Get<EnemyPool>().Return(this);
     }
 
     private void MoveByDefault()
@@ -133,5 +138,38 @@ public class Enemy : DamageableCharacter
             Vector2 knockback = direction * knockbackForce;
             damageableObject.OnHit(damage, knockback);
         }
+    }
+    
+    private IEnumerator ReturnAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ReturnToPool();
+    }
+    
+    public void OnGetFromPool()
+    {
+        gameObject.SetActive(true);
+
+        isAlive = true;
+        Targetable = true;
+
+        _health = MaxHealth;
+
+        rb.simulated = true;
+        physicsCollider.enabled = true;
+
+        CURRENT_ANIMATION = RUN_ANIMATION;
+    }
+
+    public void OnReturnToPool()
+    {
+        StopAllCoroutines();
+
+        rb.velocity = Vector2.zero;
+        rb.simulated = false;
+
+        physicsCollider.enabled = false;
+
+        gameObject.SetActive(false);
     }
 }
