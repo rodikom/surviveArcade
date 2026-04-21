@@ -6,16 +6,13 @@ using UnityEngine.PlayerLoop;
 
 public class Enemy : DamageableCharacter
 {
-    // Unity components
     protected SpriteRenderer spriteRenderer;
 
-    // Enemy stats
     [SerializeField]
     protected float speed;
     [SerializeField]
     protected float damage = 1f;
 
-    // Find player
     [SerializeField]
     protected Transform target;
     [SerializeField]
@@ -32,10 +29,8 @@ public class Enemy : DamageableCharacter
 
     protected bool isAlive = true;
 
-    // Animation states
     protected string RUN_ANIMATION = "RUN";
 
-    // Destroy distance
     [SerializeField]
     protected float destroyDistance = 50f;
 
@@ -67,7 +62,7 @@ public class Enemy : DamageableCharacter
         base.Update();
 
         if (Vector2.Distance(transform.position, target.position) > destroyDistance) {
-            Destroy(gameObject);
+            SpawnService.Destroy(gameObject);
         }
 
         if (Health <= 0 && isAlive) {
@@ -76,17 +71,16 @@ public class Enemy : DamageableCharacter
             
             var chance = Random.Range(0, 100);
             if (chance <= 25) {
-                Instantiate(restorHPPrefab, transform.position, transform.rotation);
+                SpawnService.Instantiate(restorHPPrefab, transform.position, transform.rotation);
             }
 
-            Destroy(gameObject, 30);
+            SpawnService.Destroy(gameObject, 30);
         }
 
         if (speed > 0 && isAlive) {
             float newSpeed = 2 * speed;
 
             if (target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance) {
-                //transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime);
                 transform.position = Vector2.MoveTowards(transform.position, target.position, newSpeed * Time.deltaTime * 2);
                 FlipSprite(target.position - transform.position);
             } else {

@@ -23,7 +23,7 @@ public class HitText : MonoBehaviour
         rTransform.SetParent(GameObject.FindObjectOfType<Canvas>().transform);
         color = textMesh.color;
 
-        Destroy(gameObject, lifeTime);
+        SpawnService.Destroy(gameObject, lifeTime);
     }
 
     private void Update()

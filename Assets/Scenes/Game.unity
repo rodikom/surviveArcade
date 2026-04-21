@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -805,7 +804,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5050278683981694974, guid: bbe8f4f1e42aa51429bb4df3f305c921, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 14.9999695
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6220785967276808447, guid: bbe8f4f1e42aa51429bb4df3f305c921, type: 3}
       propertyPath: m_Name
@@ -933,6 +932,8 @@ MonoBehaviour:
   - {fileID: 815877026482536236, guid: 5940e1ad8f867e54ea3ce55107e084f4, type: 3}
   spawnInterval: 1
   enemyContainer: {fileID: 928310744}
+  bulletPrefab: {fileID: 9093169002470347413, guid: cb179e2415c15584fb6688153e9297e6, type: 3}
+  bonePrefab: {fileID: 9093169002470347413, guid: 9b0a39a694440c145942c205dfb9a4a5, type: 3}
 --- !u!4 &1894553550
 Transform:
   m_ObjectHideFlags: 0

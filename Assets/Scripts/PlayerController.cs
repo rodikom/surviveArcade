@@ -109,7 +109,7 @@ public class PlayerController : DamageableCharacter
     {
         if (collision.transform.CompareTag("RestorHP")) {
             restorHPCount++;
-            Destroy(collision.gameObject);
+            SpawnService.Destroy(collision.gameObject);
         }
     }
 }

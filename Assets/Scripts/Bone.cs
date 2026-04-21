@@ -18,9 +18,8 @@ public class Bone : Bullet
                        collision.gameObject.TryGetComponent<DamageableCharacter>(out var damageable)
                                   )
         {
-
             damageable.OnHit(damage);
-            Destroy(gameObject);
+            SpawnService.Destroy(gameObject);
         }
     }
 }

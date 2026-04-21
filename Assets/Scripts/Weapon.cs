@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // Visible fields
     [SerializeField]
     protected float damage = 1f;
 

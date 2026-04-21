@@ -22,6 +22,7 @@ public class GameOverScreen : MonoBehaviour
 
         timeText.text = timerString;
         killedEnemiesCounter.text = UIController.killedEnemyCount.ToString();
+        Debug.Log($"Instantiate: {SpawnService.InstantiateCount}, Destroy: {SpawnService.DestroyCount}");
     }
     public void RestartGame()
     {

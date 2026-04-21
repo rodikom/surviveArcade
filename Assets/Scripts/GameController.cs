@@ -10,22 +10,37 @@ public class GameController : MonoBehaviour
     private float spawnInterval = 1f;
     [SerializeField]
     private GameObject enemyContainer;
+    [SerializeField]
+    private GameObject bulletPrefab;
+    [SerializeField]
+    private GameObject bonePrefab;
 
-    private float bossSpawnInterval = 0.3f; // Інтервал спауну під час "бос-хвилі"
-    private bool isBossWaveActive = false; // Флаг, що вказує на активність "бос-хвилі"
+    private float bossSpawnInterval = 0.3f; 
+    private bool isBossWaveActive = false; 
     public bool IsBossWaveActive => isBossWaveActive;
 
-    private float bossWaveDuration = 30f; // Тривалість "бос-хвилі" в секундах
+    private float bossWaveDuration = 30f; 
     public float BossWaveDuration => bossWaveDuration; 
 
-    private float bossWaveTimer = 0f; // Таймер для відстеження часу "бос-хвилі"
-    private float spawnBossTimer = 180f; // Таймер для відстеження часу до початку "бос-хвилі"
+    private float bossWaveTimer = 0f; 
+    private float spawnBossTimer = 180f; 
 
     private Camera mainCamera;
 
     void Start()
     {
         mainCamera = Camera.main;
+        var projectilePrefabs = new Dictionary<ProjectileType, GameObject>
+        {
+            { ProjectileType.Bullet, bulletPrefab },
+            { ProjectileType.Bone, bonePrefab }
+        };
+        ServiceLocator.Register<IProjectileFactory>(
+            new ProjectileFactory(projectilePrefabs)
+        );
+        ServiceLocator.Register<IEnemyFactory>(
+            new EnemyFactory(enemyPrefabs)
+        );
         InvokeRepeating("SpawnEnemy", spawnInterval, spawnInterval);
     }
 
@@ -35,12 +50,10 @@ public class GameController : MonoBehaviour
 
         if (isBossWaveActive)
         {
-            // Зменшуємо таймер "бос-хвилі"
-            bossWaveTimer -= Time.deltaTime;
+           bossWaveTimer -= Time.deltaTime;
 
             if (bossWaveTimer <= 0)
             {
-                // Завершення "бос-хвилі": повертаємо нормальний інтервал спауну
                 isBossWaveActive = false;
                 CancelInvoke("SpawnEnemy");
                 InvokeRepeating("SpawnEnemy", spawnInterval, spawnInterval);
@@ -49,10 +62,8 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            // Перевіряємо, чи час розпочати "бос-хвилю"
             if (spawnBossTimer <= 0)
             {
-                // Активуємо "бос-хвилю": змінюємо інтервал спауну на інтервал "бос-хвилі"
                 isBossWaveActive = true;
                 bossWaveTimer = bossWaveDuration;
                 CancelInvoke("SpawnEnemy");
@@ -63,14 +74,12 @@ public class GameController : MonoBehaviour
 
     void SpawnEnemy()
     {
+        var factory = ServiceLocator.Get<IEnemyFactory>();
         Vector2[] spawnPositions = CalculateSpawnPosition();
-        foreach (Vector2 spawnPosition in spawnPositions)
+
+        foreach (var pos in spawnPositions)
         {
-            int randomEnemyIndex = Random.Range(0, enemyPrefabs.Length);
-            GameObject enemyPrefab = enemyPrefabs[randomEnemyIndex];
-            
-            var enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-            enemy.transform.SetParent(enemyContainer.transform);
+            factory.Create(pos, enemyContainer.transform);
         }
     }
 

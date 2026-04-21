@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 
 public class Gun : Weapon
 {
-    // Visible fields
     [SerializeField]
     protected float range = 7f;
     [SerializeField]
@@ -26,19 +25,17 @@ public class Gun : Weapon
         bulletStartPos = GameObject.Find("BulletStartPos").transform;
     }
 
-    private void Update()
-    {
-
-    }
-
     public override void Attack()
     {
-        Debug.Log("Piu Piu");
+        var factory = ServiceLocator.Get<IProjectileFactory>();
 
-        var shootedBullet = Instantiate(bulletPrefab, bulletStartPos.position, bulletStartPos.rotation);
-
-        shootedBullet.GetComponent<Bullet>().TargetTag = "Enemy";
-        shootedBullet.GetComponent<Bullet>().Damage = damage;
-        shootedBullet.GetComponent<Bullet>().LifeTime = range;
+        factory.Create(
+            ProjectileType.Bullet,
+            bulletStartPos.position,
+            bulletStartPos.rotation,
+            damage,
+            range,
+            "Enemy"
+        );
     }
 }

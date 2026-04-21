@@ -9,8 +9,8 @@ public class EnemyHeadstone : Enemy
     protected float range = 7f;
     [SerializeField]
     protected GameObject bonePrefab;
-    private bool isThrowing = false; // Прапорець для перевірки стану корутини
-    private bool shouldThrow = false; // Додатковий прапорець для контролю зупинки корутини
+    private bool isThrowing = false; 
+    private bool shouldThrow = false; 
     [SerializeField]
     private Transform boneStartPos;
 
@@ -19,27 +19,25 @@ public class EnemyHeadstone : Enemy
         base.Update();
 
         if (isAlive && target != null && Vector2.Distance(transform.position, target.position) <= detectionDistance) {
-            if (!isThrowing) // Перевіряємо, чи корутина вже запущена
+            if (!isThrowing) 
             {
-                isThrowing = true; // Встановлюємо прапорець, щоб показати, що корутина запущена
-                shouldThrow = true; // Встановлюємо прапорець для корутини
+                isThrowing = true;
+                shouldThrow = true; 
                 StartCoroutine(ThrowBoneEverySecond());
             }
         } else {
-            shouldThrow = false; // Вимикаємо прапорець, щоб корутина зупинилася
-            isThrowing = false; // Встановлюємо прапорець, щоб показати, що корутина зупинена
+            shouldThrow = false; 
+            isThrowing = false; 
         }
     }
 
     IEnumerator ThrowBoneEverySecond()
     {
         while (shouldThrow) {
-            // Викликаємо метод
             ThrowBone();
-            // Чекаємо 1 секунду
             yield return new WaitForSeconds(1f);
         }
-        isThrowing = false; // Встановлюємо прапорець після завершення корутини
+        isThrowing = false; 
     }
 
     void CalculateRotation()
@@ -52,20 +50,23 @@ public class EnemyHeadstone : Enemy
 
         float distance = (boneStartPos.position - transform.position).magnitude;
 
-        // Нове положення boneStartPos на цій відстані в напрямку до гравця
         boneStartPos.position = transform.position + aimDirection * distance;
     }
 
     private void ThrowBone()
     {
-        //var boneAngle = CalculateRotation();
         CalculateRotation();
-        var shootedBone = Instantiate(bonePrefab, boneStartPos.position, boneStartPos.rotation);
 
-        shootedBone.GetComponent<Bullet>().TargetTag = "Player";
-        shootedBone.GetComponent<Bullet>().Damage = damage;
-        shootedBone.GetComponent<Bullet>().LifeTime = range;
+        var factory = ServiceLocator.Get<IProjectileFactory>();
 
-        shootedBone.transform.SetParent(transform.parent);
+        factory.Create(
+            ProjectileType.Bone,
+            boneStartPos.position,
+            boneStartPos.rotation,
+            damage,
+            range,
+            "Player",
+            transform.parent
+        );
     }
 }

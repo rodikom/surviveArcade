@@ -40,7 +40,7 @@ public class DamageableCharacter : MonoBehaviour, IDamageable
                 }
                 animator.Play(HIT_ANIMATION);
 
-                GameObject text = Instantiate(hitTextPrefab);
+                GameObject text = SpawnService.Instantiate(hitTextPrefab);
                 text.GetComponent<RectTransform>().transform.position = Camera.main.WorldToScreenPoint(transform.position);
                 text.GetComponent<TextMeshProUGUI>().text = (_health - value).ToString();
             }

@@ -12,20 +12,6 @@ public class OptionsMenu : MonoBehaviour
     private Toggle vsyncTog;
     [SerializeField]
     private TMP_Text resolutionLabel;
-    //[SerializeField]
-    //private AudioMixer theMixer;
-    //[SerializeField]
-    //private TMP_Text masterLabel;
-    //[SerializeField]
-    //private TMP_Text musicLabel;
-    //[SerializeField]
-    //private TMP_Text sfxLabel;
-    //[SerializeField]
-    //private Slider masterSlider;
-    //[SerializeField]
-    //private Slider musicSlider;
-    //[SerializeField]
-    //private Slider sfxSlider;
     [SerializeField]
     private List<Vector2> resolutions = new List<Vector2>();
 
@@ -50,18 +36,6 @@ public class OptionsMenu : MonoBehaviour
             selectedRes = resolutions.Count - 1;
         }
         UpdateResolutionLabel();
-
-        //float vol = 0;
-        //theMixer.GetFloat("MasterVol", out vol);
-        //masterSlider.value = vol;
-        //theMixer.GetFloat("MusicVol", out vol);
-        //musicSlider.value = vol;
-        //theMixer.GetFloat("SFXVol", out vol);
-        //sfxSlider.value = vol;
-
-        //masterLabel.text = (masterSlider.value + 80).ToString("F0");
-        //musicLabel.text = (musicSlider.value + 80).ToString("F0");
-        //sfxLabel.text = (sfxSlider.value + 80).ToString("F0");
     }
     public void ResLeft()
     {
@@ -90,25 +64,4 @@ public class OptionsMenu : MonoBehaviour
         QualitySettings.vSyncCount = vsyncTog.isOn == true ? 1 : 0;
         Screen.SetResolution((int)resolutions[selectedRes].x, (int)resolutions[selectedRes].y, fullScreenTog.isOn);
     }
-    //public void SetMasterVol()
-    //{
-    //    masterLabel.text = (masterSlider.value + 80).ToString("F0");
-    //    theMixer.SetFloat("MasterVol", masterSlider.value);
-
-    //    PlayerPrefs.SetFloat("MasterVol", masterSlider.value);
-    //}
-    //public void SetMusicVol()
-    //{
-    //    musicLabel.text = (musicSlider.value + 80).ToString("F0");
-    //    theMixer.SetFloat("MusicVol", musicSlider.value);
-
-    //    PlayerPrefs.SetFloat("MusicVol", musicSlider.value);
-    //}
-    //public void SetSFXVol()
-    //{
-    //    sfxLabel.text = (sfxSlider.value + 80).ToString("F0");
-    //    theMixer.SetFloat("SFXVol", sfxSlider.value);
-
-    //    PlayerPrefs.SetFloat("SFXVol", sfxSlider.value);
-    //}
 }

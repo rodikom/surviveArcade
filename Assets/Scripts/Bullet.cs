@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    // Unity components
     protected Rigidbody2D rb;
 
-    // Bullet stats
     [SerializeField]
     protected float speed = 10f;
 
@@ -46,7 +44,7 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, lifeTime);
+        SpawnService.Destroy(gameObject, lifeTime);
     }
     protected virtual void FixedUpdate()
     {
@@ -59,9 +57,7 @@ public class Bullet : MonoBehaviour
             if (collision.gameObject.CompareTag(targetTag)) {
                 damageable.OnHit(damage);
             }
-            Destroy(gameObject);
+            SpawnService.Destroy(gameObject);
         }
-
-
     }
 }

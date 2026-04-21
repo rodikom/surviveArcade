@@ -41,16 +41,13 @@ public class UIController : MonoBehaviour
         killedEnemyCount = 0;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Health render
         float filledAmount = player.Health / player.MaxHealth;
         healthBar.fillAmount = filledAmount;
 
         healthText.text = player.Health.ToString() + " / " + player.MaxHealth.ToString();
 
-        // Timer render
         timerTime += Time.deltaTime;
 
         int minutes = Mathf.FloorToInt(timerTime / 60f);
@@ -76,7 +73,6 @@ public class UIController : MonoBehaviour
             }
         }
 
-        // Killed Enemy count render
         killedEnemyCountText.text = killedEnemyCount.ToString();
 
         var resHPCount = player.RestorHPCount;

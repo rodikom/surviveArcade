@@ -15,7 +15,7 @@ public class CleverEnemy : Enemy
         {
             isAlive = false;
             UIController.killedEnemyCount++;
-            Destroy(gameObject, 30);
+            SpawnService.Destroy(gameObject, 30);
         }
 
         if (speed > 0 && isAlive)

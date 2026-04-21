@@ -30,7 +30,7 @@ public class MapController : MonoBehaviour
     {
         Vector3Int playerCell = grid.WorldToCell(playerPos.position);
 
-        int radiusSquared = 20 * 20; // Квадрат радіусу кола
+        int radiusSquared = 20 * 20; 
 
         for (int x = playerCell.x - 20; x <= playerCell.x + 20; x++)
         {
@@ -39,15 +39,15 @@ public class MapController : MonoBehaviour
                 Vector3Int currentCell = new Vector3Int(x, y, 0);
                 int distanceSquared = (playerCell - currentCell).sqrMagnitude;
 
-                if (distanceSquared < radiusSquared) // Перевіряємо, чи клітина знаходиться всередині кола
+                if (distanceSquared < radiusSquared) 
                 {
-                    if (!tilemap.HasTile(currentCell)) // Перевіряємо, чи в цій клітині вже є тайл
+                    if (!tilemap.HasTile(currentCell)) 
                     {
                         int i = Mathf.FloorToInt(Random.Range(0f, 6f));
                         tilemap.SetTile(currentCell, tiles[i]);
                     }
                 }
-                else // Якщо клітина знаходиться поза колом, видаляємо тайл
+                else 
                 {
                     tilemap.SetTile(currentCell, null);
                 }
